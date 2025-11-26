@@ -65,7 +65,7 @@
       align-items: center;
     }
 
-    .fb-button {
+    .btn-chip {
       border-radius: 999px;
       padding: 6px 14px;
       font-size: 0.8rem;
@@ -73,9 +73,10 @@
       background: #1e293b;
       color: #e5e7eb;
       text-decoration: none;
+      white-space: nowrap;
     }
 
-    .fb-button:hover { border-color: white; }
+    .btn-chip:hover { border-color: white; }
 
     main {
       margin-top: 28px;
@@ -107,6 +108,11 @@
       color: var(--muted);
       margin-bottom: 18px;
       font-size: 0.95rem;
+    }
+
+    .hero-copy a {
+      color: #e5e7eb;
+      text-decoration: underline;
     }
 
     .hero-visual {
@@ -241,32 +247,30 @@
   <div class="page">
 
     <!-- HEADER -->
-   <header>
-  <div>
-    <h1>Ginovski Metallic Studio</h1>
-    <span>Door Frames · Tables · Shelves</span>
-  </div>
+    <header>
+      <div>
+        <h1>Ginovski Metallic Studio</h1>
+        <span>Door Frames · Tables · Shelves</span>
+      </div>
 
-  <div class="header-right">
+      <div class="header-right">
+        <!-- Pinterest Button -->
+        <a
+          class="btn-chip"
+          href="https://www.pinterest.com/zginovski/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Pinterest</a>
 
-    <!-- Pinterest Button -->
-    <a
-      class="fb-button"
-      href="https://www.pinterest.com/zginovski/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >Pinterest</a>
-
-    <!-- Facebook Button -->
-    <a
-      class="fb-button"
-      href="https://www.facebook.com/p/Nogarki-i-elementi-za-mebel-100083597191013/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >Facebook</a>
-
-  </div>
-</header>
+        <!-- Facebook Button -->
+        <a
+          class="btn-chip"
+          href="https://www.facebook.com/p/Nogarki-i-elementi-za-mebel-100083597191013/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Facebook</a>
+      </div>
+    </header>
 
     <main>
 
@@ -278,36 +282,37 @@
             For Modern Interiors
           </h2>
           <p>
-            If you find a door, shelf, table or any metal element on Pinterest that you like,
-            send us the picture and we can build it for you.
+            If you find a door, shelf, table or any metal element on
+            <a href="https://www.pinterest.com/zginovski/" target="_blank" rel="noopener noreferrer">Pinterest</a>
+            that you like, send us the picture and we can build it for you.
           </p>
         </div>
 
         <div class="hero-visual">
           <!-- Main door -->
           <figure>
-            <a href="door.jpg" target="_blank">
+            <a href="item.html?item=door" target="_blank">
               <img src="door.jpg" alt="Custom metallic door frame">
             </a>
           </figure>
 
           <!-- Corner shelf -->
           <figure>
-            <a href="shelf.jpg" target="_blank">
+            <a href="item.html?item=shelf" target="_blank">
               <img src="shelf.jpg" alt="Corner metal shelf unit">
             </a>
           </figure>
 
           <!-- Table hero -->
           <figure>
-            <a href="table.jpg" target="_blank">
+            <a href="item.html?item=table-main" target="_blank">
               <img src="table.jpg" alt="Custom metal table with chairs">
             </a>
           </figure>
 
           <!-- Extra door hero -->
           <figure>
-            <a href="door1.jpg" target="_blank">
+            <a href="item.html?item=door1" target="_blank">
               <img src="door1.jpg" alt="Metal and glass door">
             </a>
           </figure>
@@ -326,42 +331,42 @@
 
             <!-- DOORS -->
             <div class="card">
-              <a href="door.jpg" target="_blank">
+              <a href="item.html?item=door" target="_blank">
                 <img src="door.jpg" alt="Door project">
               </a>
               <h4>Sliding Door Partition</h4>
             </div>
 
             <div class="card">
-              <a href="door1.jpg" target="_blank">
+              <a href="item.html?item=door1" target="_blank">
                 <img src="door1.jpg" alt="Door project 1">
               </a>
               <h4>Glass Door with Black Frame</h4>
             </div>
 
             <div class="card">
-              <a href="door2.jpg" target="_blank">
+              <a href="item.html?item=door2" target="_blank">
                 <img src="door2.jpg" alt="Door project 2">
               </a>
               <h4>Single Glass Door</h4>
             </div>
 
             <div class="card">
-              <a href="door3.jpg" target="_blank">
+              <a href="item.html?item=door3" target="_blank">
                 <img src="door3.jpg" alt="Door project 3">
               </a>
               <h4>Hallway Glass Doors</h4>
             </div>
 
             <div class="card">
-              <a href="door4.jpg" target="_blank">
+              <a href="item.html?item=door4" target="_blank">
                 <img src="door4.jpg" alt="Door project 4">
               </a>
               <h4>Tall Partition Door</h4>
             </div>
 
             <div class="card">
-              <a href="door5.jpg" target="_blank">
+              <a href="item.html?item=door5" target="_blank">
                 <img src="door5.jpg" alt="Door project 5">
               </a>
               <h4>Corner Glass Partition</h4>
@@ -369,98 +374,92 @@
 
             <!-- MAIN TABLE -->
             <div class="card">
-              <a href="table.jpg" target="_blank">
+              <a href="item.html?item=table-main" target="_blank">
                 <img src="table.jpg" alt="Dining table">
               </a>
               <h4>Dining Table with Chairs</h4>
             </div>
 
-            <!-- TABLES (OLDER BATCH) -->
+            <!-- TABLES -->
             <div class="card">
-              <a href="table7.jpg" target="_blank">
+              <a href="item.html?item=table7" target="_blank">
                 <img src="table7.jpg" alt="Dining table">
               </a>
               <h4>Solid Wood Dining Table</h4>
             </div>
 
             <div class="card">
-              <a href="table8.jpg" target="_blank">
+              <a href="item.html?item=table8" target="_blank">
                 <img src="table8.jpg" alt="Black glass table">
               </a>
-              <h4>Wooden Log Coffe Table</h4>
+              <h4>Wooden Log Coffee Table</h4>
             </div>
 
             <div class="card">
-              <a href="table9.jpg" target="_blank">
+              <a href="item.html?item=table9" target="_blank">
                 <img src="table9.jpg" alt="Stone top table">
               </a>
               <h4>Stone Top Living Room Table</h4>
             </div>
 
             <div class="card">
-              <a href="table10.jpg" target="_blank">
+              <a href="item.html?item=table10" target="_blank">
                 <img src="table10.jpg" alt="White top table">
               </a>
               <h4>White Table with Steel Base</h4>
             </div>
 
             <div class="card">
-              <a href="table11.jpg" target="_blank">
+              <a href="item.html?item=table11" target="_blank">
                 <img src="table11.jpg" alt="Outdoor glass table">
               </a>
               <h4>Outdoor Glass Table</h4>
             </div>
 
-            <!-- TABLES (NEW BATCH) -->
             <div class="card">
-              <a href="table12.jpg" target="_blank">
+              <a href="item.html?item=table12" target="_blank">
                 <img src="table12.jpg" alt="Hairpin coffee table">
               </a>
               <h4>Hairpin Leg Coffee Table</h4>
             </div>
 
-           
-           
-
-            
-
             <div class="card">
-              <a href="table16.jpg" target="_blank">
+              <a href="item.html?item=table16" target="_blank">
                 <img src="table16.jpg" alt="Wide coffee table">
               </a>
               <h4>Wide Living Room Coffee Table</h4>
             </div>
 
             <div class="card">
-              <a href="table17.jpg" target="_blank">
+              <a href="item.html?item=table17" target="_blank">
                 <img src="table17.jpg" alt="Side sofa table">
               </a>
               <h4>Side Sofa Table</h4>
             </div>
 
             <div class="card">
-              <a href="table18.jpg" target="_blank">
+              <a href="item.html?item=table18" target="_blank">
                 <img src="table18.jpg" alt="Black dining table">
               </a>
               <h4>Black Dining Table</h4>
             </div>
 
             <div class="card">
-              <a href="table19.jpg" target="_blank">
+              <a href="item.html?item=table19" target="_blank">
                 <img src="table19.jpg" alt="Round nested tables">
               </a>
               <h4>Round Nested Coffee Tables</h4>
             </div>
 
             <div class="card">
-              <a href="table20.jpg" target="_blank">
+              <a href="item.html?item=table20" target="_blank">
                 <img src="table20.jpg" alt="X leg coffee table">
               </a>
               <h4>X-Leg Coffee Table</h4>
             </div>
 
             <div class="card">
-              <a href="table21.jpg" target="_blank">
+              <a href="item.html?item=table21" target="_blank">
                 <img src="table21.jpg" alt="Round table set">
               </a>
               <h4>Round Table Set</h4>
@@ -468,57 +467,56 @@
 
             <!-- SHELVES / CABINETS -->
             <div class="card">
-              <a href="shelf.jpg" target="_blank">
+              <a href="item.html?item=shelf" target="_blank">
                 <img src="shelf.jpg" alt="Corner shelf">
               </a>
               <h4>Corner Shelf Unit</h4>
             </div>
 
             <div class="card">
-              <a href="shelf1.jpg" target="_blank">
+              <a href="item.html?item=shelf1" target="_blank">
                 <img src="shelf1.jpg" alt="Shelf 1">
               </a>
               <h4>Wall Shelf with Mesh</h4>
             </div>
 
             <div class="card">
-              <a href="shelf2.jpg" target="_blank">
+              <a href="item.html?item=shelf2" target="_blank">
                 <img src="shelf2.jpg" alt="Wine shelf">
               </a>
               <h4>Wine Rack & Cabinet</h4>
             </div>
 
             <div class="card">
-              <a href="shelf3.jpg" target="_blank">
+              <a href="item.html?item=shelf3" target="_blank">
                 <img src="shelf3.jpg" alt="Kitchen storage">
               </a>
               <h4>Kitchen Metal Storage</h4>
             </div>
 
             <div class="card">
-              <a href="shelf4.jpg" target="_blank">
+              <a href="item.html?item=shelf4" target="_blank">
                 <img src="shelf4.jpg" alt="Display cabinet">
               </a>
               <h4>Display Wine Cabinet</h4>
             </div>
 
             <div class="card">
-              <a href="shelf5.jpg" target="_blank">
+              <a href="item.html?item=shelf5" target="_blank">
                 <img src="shelf5.jpg" alt="Open shelf">
               </a>
               <h4>Open Metal & Wood Shelf</h4>
             </div>
 
-          
             <div class="card">
-              <a href="cabinet1.jpg" target="_blank">
+              <a href="item.html?item=cabinet1" target="_blank">
                 <img src="cabinet1.jpg" alt="Sideboard cabinet">
               </a>
               <h4>Metal & Wood Sideboard</h4>
             </div>
 
             <div class="card">
-              <a href="ceilingShelf.jpg" target="_blank">
+              <a href="item.html?item=ceilingShelf" target="_blank">
                 <img src="ceilingShelf.jpg" alt="Ceiling shelf">
               </a>
               <h4>Ceiling Corner Shelf</h4>
@@ -526,7 +524,7 @@
 
             <!-- BAR TABLE -->
             <div class="card">
-              <a href="bar1.jpg" target="_blank">
+              <a href="item.html?item=bar1" target="_blank">
                 <img src="bar1.jpg" alt="Bar table with stools">
               </a>
               <h4>Bar Table & Stools</h4>
