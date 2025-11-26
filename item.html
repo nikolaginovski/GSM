@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Item · Ginovski Metallic Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #050814;
+      --card: #0f172a;
+      --accent: #e5e7eb;
+      --muted: #9ca3af;
+      --border-subtle: rgba(148,163,184,0.25);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: radial-gradient(circle at top, #111827 0, #020617 50%, #000 100%);
+      color: var(--accent);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 12px;
+    }
+
+    .card {
+      max-width: 900px;
+      width: 100%;
+      background: #020617;
+      border-radius: 24px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.5);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    }
+
+    @media (max-width: 820px) {
+      .card {
+        grid-template-columns: minmax(0,1fr);
+      }
+    }
+
+    .image-wrap {
+      background: #020617;
+      border-right: 1px solid var(--border-subtle);
+    }
+
+    .image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .content {
+      padding: 20px 20px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 0.93rem;
+      color: var(--muted);
+    }
+
+    ul {
+      margin: 6px 0 0;
+      padding-left: 18px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .meta {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .meta span {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    .buttons {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 8px 16px;
+      border: 1px solid var(--border-subtle);
+      background: #020617;
+      color: var(--accent);
+      font-size: 0.85rem;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn.primary {
+      background: #e5e7eb;
+      color: #020617;
+      border-color: transparent;
+    }
+
+    .btn:hover {
+      border-color: #e5e7eb;
+    }
+
+    .not-found {
+      color: var(--muted);
+      text-align: center;
+      padding: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    const ITEMS = {
+      // Doors
+      door: {
+        title: "Sliding Door Partition",
+        category: "Door / Partition",
+        image: "door.jpg",
+        description:
+          "Metal-framed sliding partition door, ideal for separating living and kitchen areas while keeping the space open and bright.",
+        details: [
+          "Powder-coated metal frame",
+          "Tempered safety glass",
+          "Custom dimensions available",
+        ],
+      },
+      door1: {
+        title: "Glass Door with Black Frame",
+        category: "Door",
+        image: "door1.jpg",
+        description:
+          "Single swing door with slim black frame, perfect for modern interiors and offices.",
+        details: [
+          "Single leaf glass door",
+          "Slim industrial profile",
+          "Suitable for interior use",
+        ],
+      },
+      door2: {
+        title: "Single Glass Door",
+        category: "Door",
+        image: "door2.jpg",
+        description:
+          "Minimal framed glass door that brings light into hallways and tighter spaces.",
+        details: [
+          "Compact design for tight spaces",
+          "Clear or smoked glass options",
+        ],
+      },
+      door3: {
+        title: "Hallway Glass Doors",
+        category: "Door / Partition",
+        image: "door3.jpg",
+        description:
+          "Multiple glass doors along a corridor, creating a bright and open feeling.",
+        details: [
+          "Modular door system",
+          "Can be combined into multiple openings",
+        ],
+      },
+      door4: {
+        title: "Tall Partition Door",
+        category: "Door / Partition",
+        image: "door4.jpg",
+        description:
+          "Tall framed glass partition used to separate high-ceiling spaces.",
+        details: [
+          "Ideal for lofts and duplexes",
+          "Strong vertical lines",
+        ],
+      },
+      door5: {
+        title: "Corner Glass Partition",
+        category: "Door / Partition",
+        image: "door5.jpg",
+        description:
+          "Corner glass partition creating a separate room while keeping full visibility.",
+        details: [
+          "Corner configuration",
+          "Can be used for home office or dining area",
+        ],
+      },
+
+      // Tables
+      "table-main": {
+        title: "Dining Table with Chairs",
+        category: "Table",
+        image: "table.jpg",
+        description:
+          "Rectangular dining table with a metal frame and upholstered chairs.",
+        details: [
+          "Suitable for dining or meeting rooms",
+          "Metal base with robust top",
+        ],
+      },
+      table7: {
+        title: "Solid Wood Dining Table",
+        category: "Table",
+        image: "table7.jpg",
+        description:
+          "Solid wood table with clean metal legs, perfect for dining or workspaces.",
+        details: [
+          "Thick solid wood top",
+          "Powder-coated metal base",
+        ],
+      },
+      table8: {
+        title: "Wooden Log Coffee Table",
+        category: "Coffee Table",
+        image: "table8.jpg",
+        description:
+          "Chunky log coffee table combined with metal frame details.",
+        details: [
+          "Natural wood slab",
+          "Contrasting metal structure",
+        ],
+      },
+      table9: {
+        title: "Stone Top Living Room Table",
+        category: "Coffee Table",
+        image: "table9.jpg",
+        description:
+          "Stone-effect top on a sturdy metal frame for modern living rooms.",
+        details: [
+          "Durable surface",
+          "Geometric metal base",
+        ],
+      },
+      table10: {
+        title: "White Table with Steel Base",
+        category: "Table",
+        image: "table10.jpg",
+        description:
+          "Bright white tabletop supported by a sculptural steel base.",
+        details: [
+          "Statement piece for interiors",
+          "Custom sizes on request",
+        ],
+      },
+      table11: {
+        title: "Outdoor Glass Table",
+        category: "Outdoor Table",
+        image: "table11.jpg",
+        description:
+          "Outdoor table with glass top and metal frame, perfect for terraces.",
+        details: [
+          "Weather-resistant construction",
+          "Ideal for balconies and rooftops",
+        ],
+      },
+      table12: {
+        title: "Hairpin Leg Coffee Table",
+        category: "Coffee Table",
+        image: "table12.jpg",
+        description:
+          "Simple rectangular top with metal hairpin legs for a light look.",
+        details: [
+          "Compact and stylish",
+          "Works well in small living rooms",
+        ],
+      },
+      table16: {
+        title: "Wide Living Room Coffee Table",
+        category: "Coffee Table",
+        image: "table16.jpg",
+        description:
+          "Low and wide table, perfect for a central living room feature.",
+        details: [
+          "Large usable surface",
+          "Metal base for stability",
+        ],
+      },
+      table17: {
+        title: "Side Sofa Table",
+        category: "Side Table",
+        image: "table17.jpg",
+        description:
+          "Narrow table designed to sit next to a sofa for drinks and books.",
+        details: [
+          "Slim footprint",
+          "Metal frame construction",
+        ],
+      },
+      table18: {
+        title: "Black Dining Table",
+        category: "Dining Table",
+        image: "table18.jpg",
+        description:
+          "Dark tabletop with contrast chairs, ideal for stylish dining rooms.",
+        details: [
+          "Modern aesthetic",
+          "Durable finish",
+        ],
+      },
+      table19: {
+        title: "Round Nested Coffee Tables",
+        category: "Coffee Tables",
+        image: "table19.jpg",
+        description:
+          "Set of round nesting tables with slim metal legs.",
+        details: [
+          "Space-saving nested design",
+          "Multiple heights",
+        ],
+      },
+      table20: {
+        title: "X-Leg Coffee Table",
+        category: "Coffee Table",
+        image: "table20.jpg",
+        description:
+          "Coffee table with X-shaped metal legs and a wood top.",
+        details: [
+          "Bold base design",
+          "Suitable for modern living rooms",
+        ],
+      },
+      table21: {
+        title: "Round Table Set",
+        category: "Table Set",
+        image: "table21.jpg",
+        description:
+          "Round table set with cylindrical metal bases and smooth tops.",
+        details: [
+          "Perfect for lounge areas",
+          "Different heights for layering",
+        ],
+      },
+
+      // Shelves / cabinets / bar
+      shelf: {
+        title: "Corner Shelf Unit",
+        category: "Shelf",
+        image: "shelf.jpg",
+        description:
+          "Tall corner shelving unit with multiple levels and metal framing.",
+        details: [
+          "Space-efficient corner design",
+          "Great for living rooms or offices",
+        ],
+      },
+      shelf1: {
+        title: "Wall Shelf with Mesh",
+        category: "Shelf",
+        image: "shelf1.jpg",
+        description:
+          "Wall-mounted shelf system with mesh panels and metal supports.",
+        details: [
+          "Industrial look",
+          "Can combine open and closed storage",
+        ],
+      },
+      shelf2: {
+        title: "Wine Rack & Cabinet",
+        category: "Shelf / Bar",
+        image: "shelf2.jpg",
+        description:
+          "Wine storage with integrated cabinet sections and metal frame.",
+        details: [
+          "Bottle and glass storage",
+          "Ideal for bar corners or dining rooms",
+        ],
+      },
+      shelf3: {
+        title: "Kitchen Metal Storage",
+        category: "Shelf",
+        image: "shelf3.jpg",
+        description:
+          "Metal-framed kitchen shelving for appliances and everyday items.",
+        details: [
+          "High load capacity",
+          "Open storage for easy access",
+        ],
+      },
+      shelf4: {
+        title: "Display Wine Cabinet",
+        category: "Cabinet",
+        image: "shelf4.jpg",
+        description:
+          "Tall glass-front cabinet for displaying bottles and decor.",
+        details: [
+          "Framed glass doors",
+          "Adjustable shelving",
+        ],
+      },
+      shelf5: {
+        title: "Open Metal & Wood Shelf",
+        category: "Shelf",
+        image: "shelf5.jpg",
+        description:
+          "Open shelving system with wood boards and metal uprights.",
+        details: [
+          "Customizable layout",
+          "Ideal for books or decor",
+        ],
+      },
+      cabinet1: {
+        title: "Metal & Wood Sideboard",
+        category: "Cabinet",
+        image: "cabinet1.jpg",
+        description:
+          "Low sideboard with metal frame and wood doors/drawers.",
+        details: [
+          "Perfect for living or dining room storage",
+          "Mix of open and closed sections",
+        ],
+      },
+      ceilingShelf: {
+        title: "Ceiling Corner Shelf",
+        category: "Shelf",
+        image: "ceilingShelf.jpg",
+        description:
+          "Hanging corner shelf mounted to the ceiling for extra storage and style.",
+        details: [
+          "Suspended design",
+          "Uses ceiling fixing points",
+        ],
+      },
+      bar1: {
+        title: "Bar Table & Stools",
+        category: "Bar Table",
+        image: "bar1.jpg",
+        description:
+          "High bar table with mesh sides and matching stools.",
+        details: [
+          "Perfect for kitchen islands or bar areas",
+          "Comfortable height for casual seating",
+        ],
+      },
+    };
+
+    function render() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("item");
+      const data = ITEMS[id];
+
+      const root = document.getElementById("root");
+
+      if (!data) {
+        root.innerHTML = `
+          <div class="card">
+            <div class="not-found">
+              <h2>Item not found</h2>
+              <p>This item does not exist or was removed.</p>
+              <div style="margin-top:12px;">
+                <a class="btn" href="index.html">← Back to gallery</a>
+              </div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      root.innerHTML = `
+        <div class="card">
+          <div class="image-wrap">
+            <img src="${data.image}" alt="${data.title}">
+          </div>
+          <div class="content">
+            <div class="badge">${data.category}</div>
+            <h1>${data.title}</h1>
+            <p>${data.description}</p>
+            ${
+              data.details && data.details.length
+                ? `<ul>${data.details.map(d => `<li>${d}</li>`).join("")}</ul>`
+                : ""
+            }
+            <div class="meta">
+              <span>Custom fabrication by Ginovski Metallic Studio</span>
+            </div>
+            <div class="buttons">
+              <a class="btn primary" href="tel:+38975744244">Call Zlatko</a>
+              <a class="btn" href="mailto:?subject=Inquiry%20about%20${encodeURIComponent(
+                data.title
+              )}">Email about this item</a>
+              <a class="btn" href="index.html" target="_self">← Back to gallery</a>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    render();
+  </script>
+</body>
+</html>
