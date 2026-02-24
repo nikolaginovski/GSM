@@ -722,42 +722,161 @@
     letter-spacing: 0.05em;
   }
 
+  /* LANG TOGGLE */
+  .lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 16px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+  }
+  .lang-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .lang-btn .lang-flag { font-size: 16px; }
+  .lang-btn .lang-active { color: var(--gold); font-weight: 500; }
+
   /* LIGHTBOX */
   .lightbox {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.95);
+    background: rgba(0,0,0,0.96);
     backdrop-filter: blur(30px);
     z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px;
+    padding: clamp(16px, 4vw, 60px);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s;
+    transition: opacity 0.35s;
   }
   .lightbox.open { opacity: 1; pointer-events: all; }
-  .lightbox img {
-    max-width: 90vw;
-    max-height: 85vh;
-    object-fit: contain;
-    border: 1px solid var(--border);
-    filter: brightness(0.9);
+
+  .lightbox-inner {
+    display: flex;
+    gap: clamp(16px, 3vw, 48px);
+    align-items: stretch;
+    max-width: 1100px;
+    width: 100%;
+    max-height: 90vh;
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
   }
+  .lightbox.open .lightbox-inner { transform: translateY(0) scale(1); }
+
+  .lightbox-img-wrap {
+    flex: 1 1 55%;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    position: relative;
+    background: var(--surface);
+  }
+  .lightbox-img-wrap img {
+    width: 100%;
+    height: 100%;
+    max-height: 75vh;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.92);
+  }
+
+  .lightbox-info {
+    flex: 0 0 clamp(220px, 30vw, 340px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 8px 0;
+  }
+  .lightbox-cat {
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .lightbox-cat::before { content: ''; width: 24px; height: 1px; background: var(--gold); }
+
+  .lightbox-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(26px, 3.5vw, 42px);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .lightbox-desc {
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--text-muted);
+    flex: 1;
+    margin-bottom: 28px;
+  }
+  .lightbox-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+  .lightbox-tag {
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .lightbox-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: var(--gold);
+    color: #080808;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    width: fit-content;
+  }
+  .lightbox-cta:hover { opacity: 0.85; transform: translateY(-2px); }
+
   .lightbox-close {
     position: absolute;
-    top: 24px; right: 32px;
+    top: 20px; right: 24px;
     background: none;
     border: 1px solid var(--border);
     color: var(--text);
-    font-size: 20px;
-    width: 44px; height: 44px;
+    font-size: 18px;
+    width: 40px; height: 40px;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     transition: all 0.3s;
+    z-index: 10;
   }
   .lightbox-close:hover { border-color: var(--gold); color: var(--gold); }
+
+  @media (max-width: 700px) {
+    .lightbox { padding: 16px; align-items: flex-end; }
+    .lightbox-inner { flex-direction: column; max-height: 92vh; overflow-y: auto; }
+    .lightbox-img-wrap img { max-height: 45vw; }
+    .lightbox-info { flex: none; padding: 16px 0 8px; }
+  }
 
   /* RESPONSIVE */
   @media (max-width: 1024px) {
@@ -816,10 +935,11 @@
     </div>
   </a>
   <div class="nav-links">
-    <a href="#gallery">Portfolio</a>
-    <a href="#about">About</a>
+    <a href="#gallery" data-en="Portfolio" data-mk="Портфолио">Portfolio</a>
+    <a href="#about" data-en="About" data-mk="За нас">About</a>
     <a href="https://www.pinterest.com/zginovski/" target="_blank">Pinterest</a>
-    <a href="tel:+38975744244" class="nav-cta">Contact</a>
+    <a href="tel:+38975744244" class="nav-cta" data-en="Contact" data-mk="Контакт">Contact</a>
+    <button class="lang-btn" onclick="toggleLang()" id="langBtn"><span class="lang-flag" id="langFlag">🇲🇰</span><span id="langLabel">MK</span></button>
   </div>
   <div class="hamburger" id="ham" onclick="toggleMenu()">
     <span></span><span></span><span></span>
@@ -843,10 +963,10 @@
     <h1 class="hero-title">Where Metal<br><em>Meets</em><br>Mastery</h1>
     <p class="hero-desc">Custom metalwork for the discerning home — doors, tables, shelves, and bespoke pieces built with precision and lasting character.</p>
     <div class="hero-actions">
-      <a href="#gallery" class="btn-primary">View Portfolio
+      <a href="#gallery" class="btn-primary" id="heroCta1">View Portfolio
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </a>
-      <a href="tel:+38975744244" class="btn-outline">📞 Call Us</a>
+      <a href="tel:+38975744244" class="btn-outline" id="heroCta2">📞 Call Us</a>
     </div>
   </div>
   <div class="hero-float">
@@ -882,7 +1002,7 @@
 
   <div class="gallery-grid" id="galleryGrid">
     <!-- DOORS -->
-    <div class="gallery-card" data-cat="door" onclick="openLightbox('https://nikolaginovski.github.io/GSM/door.jpg')">
+    <div class="gallery-card" data-cat="door" data-item="door" onclick="openLightbox('https://nikolaginovski.github.io/GSM/door.jpg','door')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/door.jpg" alt="Custom metallic door frame" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Door</div>
@@ -890,7 +1010,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="door" onclick="openLightbox('https://nikolaginovski.github.io/GSM/door1.jpg')">
+    <div class="gallery-card" data-cat="door" data-item="door1" onclick="openLightbox('https://nikolaginovski.github.io/GSM/door1.jpg','door1')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/door1.jpg" alt="Metal and glass door" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Door</div>
@@ -898,7 +1018,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="door" onclick="openLightbox('https://nikolaginovski.github.io/GSM/door2.jpg')">
+    <div class="gallery-card" data-cat="door" data-item="door2" onclick="openLightbox('https://nikolaginovski.github.io/GSM/door2.jpg','door2')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/door2.jpg" alt="Door project 2" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Door</div>
@@ -906,7 +1026,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="door" onclick="openLightbox('https://nikolaginovski.github.io/GSM/door3.jpg')">
+    <div class="gallery-card" data-cat="door" data-item="door3" onclick="openLightbox('https://nikolaginovski.github.io/GSM/door3.jpg','door3')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/door3.jpg" alt="Door project 3" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Door</div>
@@ -914,7 +1034,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="door" onclick="openLightbox('https://nikolaginovski.github.io/GSM/door4.jpg')">
+    <div class="gallery-card" data-cat="door" data-item="door4" onclick="openLightbox('https://nikolaginovski.github.io/GSM/door4.jpg','door4')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/door4.jpg" alt="Door project 4" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Door</div>
@@ -922,7 +1042,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="door" onclick="openLightbox('https://nikolaginovski.github.io/GSM/door5.jpg')">
+    <div class="gallery-card" data-cat="door" data-item="door5" onclick="openLightbox('https://nikolaginovski.github.io/GSM/door5.jpg','door5')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/door5.jpg" alt="Door project 5" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Door</div>
@@ -932,7 +1052,7 @@
     </div>
 
     <!-- TABLES -->
-    <div class="gallery-card" data-cat="table" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table.jpg')">
+    <div class="gallery-card" data-cat="table" data-item="table-main" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table.jpg','table-main')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/table.jpg" alt="Dining table" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Table</div>
@@ -940,7 +1060,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="table" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table7.jpg')">
+    <div class="gallery-card" data-cat="table" data-item="table7" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table7.jpg','table7')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/table7.jpg" alt="Dining table 7" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Table</div>
@@ -948,7 +1068,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="table" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table8.jpg')">
+    <div class="gallery-card" data-cat="table" data-item="table8" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table8.jpg','table8')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/table8.jpg" alt="Black glass table" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Table</div>
@@ -956,7 +1076,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="table" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table9.jpg')">
+    <div class="gallery-card" data-cat="table" data-item="table9" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table9.jpg','table9')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/table9.jpg" alt="Stone top table" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Table</div>
@@ -964,7 +1084,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="table" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table10.jpg')">
+    <div class="gallery-card" data-cat="table" data-item="table10" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table10.jpg','table10')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/table10.jpg" alt="White top table" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Table</div>
@@ -972,7 +1092,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="table" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table11.jpg')">
+    <div class="gallery-card" data-cat="table" data-item="table11" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table11.jpg','table11')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/table11.jpg" alt="Outdoor glass table" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Table</div>
@@ -980,7 +1100,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="table" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table12.jpg')">
+    <div class="gallery-card" data-cat="table" data-item="table12" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table12.jpg','table12')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/table12.jpg" alt="Hairpin coffee table" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Table</div>
@@ -988,7 +1108,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="table" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table16.jpg')">
+    <div class="gallery-card" data-cat="table" data-item="table16" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table16.jpg','table16')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/table16.jpg" alt="Wide coffee table" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Table</div>
@@ -996,7 +1116,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="table" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table17.jpg')">
+    <div class="gallery-card" data-cat="table" data-item="table17" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table17.jpg','table17')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/table17.jpg" alt="Side sofa table" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Table</div>
@@ -1004,7 +1124,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="table" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table18.jpg')">
+    <div class="gallery-card" data-cat="table" data-item="table18" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table18.jpg','table18')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/table18.jpg" alt="Black dining table" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Table</div>
@@ -1012,7 +1132,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="table" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table19.jpg')">
+    <div class="gallery-card" data-cat="table" data-item="table19" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table19.jpg','table19')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/table19.jpg" alt="Round nested tables" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Table</div>
@@ -1020,7 +1140,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="table" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table20.jpg')">
+    <div class="gallery-card" data-cat="table" data-item="table20" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table20.jpg','table20')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/table20.jpg" alt="X leg coffee table" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Table</div>
@@ -1028,7 +1148,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="table" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table21.jpg')">
+    <div class="gallery-card" data-cat="table" data-item="table21" onclick="openLightbox('https://nikolaginovski.github.io/GSM/table21.jpg','table21')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/table21.jpg" alt="Round table set" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Table</div>
@@ -1038,7 +1158,7 @@
     </div>
 
     <!-- SHELVES -->
-    <div class="gallery-card" data-cat="shelf" onclick="openLightbox('https://nikolaginovski.github.io/GSM/shelf.jpg')">
+    <div class="gallery-card" data-cat="shelf" data-item="shelf" onclick="openLightbox('https://nikolaginovski.github.io/GSM/shelf.jpg','shelf')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/shelf.jpg" alt="Corner metal shelf unit" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Shelf</div>
@@ -1046,7 +1166,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="shelf" onclick="openLightbox('https://nikolaginovski.github.io/GSM/shelf1.jpg')">
+    <div class="gallery-card" data-cat="shelf" data-item="shelf1" onclick="openLightbox('https://nikolaginovski.github.io/GSM/shelf1.jpg','shelf1')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/shelf1.jpg" alt="Shelf 1" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Shelf</div>
@@ -1054,7 +1174,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="shelf" onclick="openLightbox('https://nikolaginovski.github.io/GSM/shelf2.jpg')">
+    <div class="gallery-card" data-cat="shelf" data-item="shelf2" onclick="openLightbox('https://nikolaginovski.github.io/GSM/shelf2.jpg','shelf2')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/shelf2.jpg" alt="Wine shelf" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Shelf</div>
@@ -1062,7 +1182,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="shelf" onclick="openLightbox('https://nikolaginovski.github.io/GSM/shelf3.jpg')">
+    <div class="gallery-card" data-cat="shelf" data-item="shelf3" onclick="openLightbox('https://nikolaginovski.github.io/GSM/shelf3.jpg','shelf3')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/shelf3.jpg" alt="Kitchen storage" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Shelf</div>
@@ -1070,7 +1190,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="shelf" onclick="openLightbox('https://nikolaginovski.github.io/GSM/shelf4.jpg')">
+    <div class="gallery-card" data-cat="shelf" data-item="shelf4" onclick="openLightbox('https://nikolaginovski.github.io/GSM/shelf4.jpg','shelf4')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/shelf4.jpg" alt="Display cabinet" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Shelf</div>
@@ -1078,7 +1198,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="shelf" onclick="openLightbox('https://nikolaginovski.github.io/GSM/shelf5.jpg')">
+    <div class="gallery-card" data-cat="shelf" data-item="shelf5" onclick="openLightbox('https://nikolaginovski.github.io/GSM/shelf5.jpg','shelf5')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/shelf5.jpg" alt="Open shelf" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Shelf</div>
@@ -1086,7 +1206,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="shelf" onclick="openLightbox('https://nikolaginovski.github.io/GSM/cabinet1.jpg')">
+    <div class="gallery-card" data-cat="shelf" data-item="cabinet1" onclick="openLightbox('https://nikolaginovski.github.io/GSM/cabinet1.jpg','cabinet1')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/cabinet1.jpg" alt="Sideboard cabinet" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Shelf</div>
@@ -1094,7 +1214,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="shelf" onclick="openLightbox('https://nikolaginovski.github.io/GSM/ceilingShelf.jpg')">
+    <div class="gallery-card" data-cat="shelf" data-item="ceilingShelf" onclick="openLightbox('https://nikolaginovski.github.io/GSM/ceilingShelf.jpg','ceilingShelf')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/ceilingShelf.jpg" alt="Ceiling shelf" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Shelf</div>
@@ -1102,7 +1222,7 @@
         <div class="gallery-card-action">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
       </div>
     </div>
-    <div class="gallery-card" data-cat="shelf" onclick="openLightbox('https://nikolaginovski.github.io/GSM/bar1.jpg')">
+    <div class="gallery-card" data-cat="shelf" data-item="bar1" onclick="openLightbox('https://nikolaginovski.github.io/GSM/bar1.jpg','bar1')">
       <img class="gallery-card-img" src="https://nikolaginovski.github.io/GSM/bar1.jpg" alt="Bar table with stools" loading="lazy">
       <div class="gallery-card-overlay">
         <div class="gallery-card-cat">Shelf</div>
@@ -1174,39 +1294,282 @@
 </footer>
 
 <!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+<div class="lightbox" id="lightbox" onclick="handleLightboxClick(event)">
   <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-  <img id="lightboxImg" src="" alt="">
+  <div class="lightbox-inner">
+    <div class="lightbox-img-wrap">
+      <img id="lightboxImg" src="" alt="">
+    </div>
+    <div class="lightbox-info">
+      <div>
+        <div class="lightbox-cat" id="lightboxCat"></div>
+        <div class="lightbox-title" id="lightboxTitle"></div>
+        <div class="lightbox-desc" id="lightboxDesc"></div>
+        <div class="lightbox-tags" id="lightboxTags"></div>
+      </div>
+      <a href="tel:+38975744244" class="lightbox-cta" id="lightboxCta">
+        📞 <span id="lightboxCtaText">Order This Piece</span>
+      </a>
+    </div>
+  </div>
 </div>
 
+
 <script>
-  // INTRO ANIMATION: "Ginovski Metallic Studio" → "GSM"
+  // ─── ITEM DATA ───────────────────────────────────────────────
+  const items = {
+    'door':  {
+      en: { cat:'Door', title:'Metallic Door Frame', desc:'A bold statement entry piece featuring a custom welded steel frame with a matte black powder coat finish. Designed for both interior and exterior use, combining industrial strength with architectural elegance.', tags:['Steel Frame','Powder Coat','Custom Size'] },
+      mk: { cat:'Врата', title:'Метална рамка за врата', desc:'Импресивна влезна врата со рачно заварена челична рамка и матна черна завршница. Дизајнирана за внатрешна и надворешна употреба, комбинирајќи индустриска цврстина со архитектонска елеганција.', tags:['Челична рамка','Прашкаста боја','Мерки по нарачка'] }
+    },
+    'door1': {
+      en: { cat:'Door', title:'Metal & Glass Door', desc:'A sleek metal and glass door combining a precision-cut steel skeleton with clear tempered glass panels. Perfect for modern homes that want natural light without sacrificing privacy or durability.', tags:['Steel + Glass','Tempered Glass','Modern Design'] },
+      mk: { cat:'Врата', title:'Метална и стаклена врата', desc:'Елегантна метал-стакло врата со прецизно сечен челичен скелет и панели од калено стакло. Совршена за модерни домови кои сакаат природна светлина без да жртвуваат приватност.', tags:['Метал + Стакло','Калено стакло','Модерен дизајн'] }
+    },
+    'door2': {
+      en: { cat:'Door', title:'Industrial Door', desc:'Raw and refined — this industrial-style door uses blackened steel with visible weld marks as a design feature. Ideal for loft apartments, studios, and contemporary commercial spaces.', tags:['Blackened Steel','Industrial Style','Visible Welds'] },
+      mk: { cat:'Врата', title:'Индустриска врата', desc:'Сурово и рафинирано — оваа врата во индустриски стил користи почернет челик со видливи заварувачки траги. Идеална за лофт апартмани и студија.', tags:['Почернет челик','Индустриски стил','Видливи завари'] }
+    },
+    'door3': {
+      en: { cat:'Door', title:'Custom Frame Door', desc:'A fully bespoke door built to exact client specifications. The angular steel geometry creates a striking visual rhythm while providing a secure and insulated structural barrier.', tags:['Bespoke','Angular Geometry','Structural'] },
+      mk: { cat:'Врата', title:'Врата по нарачка', desc:'Целосно нарачана рамка-врата изградена по точни спецификации на клиентот. Аголната стална геометрија создава упечатлив визуелен ритам и стабилна конструкција.', tags:['По нарачка','Аголна геометрија','Конструктивна'] }
+    },
+    'door4': {
+      en: { cat:'Door', title:'Steel Grid Door', desc:'A premium steel door with a grid-pattern frame finished in deep charcoal. The bold lattice detailing offers visual depth and reinforced security, ideal for main entrances.', tags:['Grid Pattern','Charcoal Finish','Security'] },
+      mk: { cat:'Врата', title:'Стална решеткаста врата', desc:'Челична врата со рамка во решеткаст образец, завршена во темно сиво. Решеткастите детали нудат визуелна длабочина и засилена безбедност за главни влезови.', tags:['Решетка','Темна завршница','Безбедност'] }
+    },
+    'door5': {
+      en: { cat:'Door', title:'Premium Entry Door', desc:'The pinnacle of the GSM door collection — a full-height entry door with inlaid steel detailing and a rich patina finish. Makes an unforgettable first impression on any home.', tags:['Full Height','Patina Finish','Premium'] },
+      mk: { cat:'Врата', title:'Премиум влезна врата', desc:'Врвот на GSM колекцијата — влезна врата со целосна висина, вградени стални детали и богата патина завршница. Оставя незаборавен прв впечаток.', tags:['Целосна висина','Патина','Премиум'] }
+    },
+    'table-main': {
+      en: { cat:'Table', title:'Dining Table', desc:'A commanding dining table with a hand-forged steel base and a solid hardwood top. Seats 6–8 comfortably and becomes the centrepiece of any dining room. Custom dimensions available.', tags:['Steel Base','Hardwood Top','Seats 6–8'] },
+      mk: { cat:'Маса', title:'Трпезариска маса', desc:'Маса за трпезарија со рачно кована стална основа и масивен дрвен плот. Прима 6–8 лица и станува центар на секоја трпезарија. Достапни мерки по нарачка.', tags:['Стална основа','Дрвен плот','6–8 лица'] }
+    },
+    'table7': {
+      en: { cat:'Table', title:'Contemporary Dining Table', desc:'Clean lines and a minimalist steel profile make this contemporary dining table a versatile centrepiece. Slim hairpin-style legs give an illusion of floating, perfect for open-plan spaces.', tags:['Minimalist','Slim Legs','Open-Plan'] },
+      mk: { cat:'Маса', title:'Современа трпезариска маса', desc:'Чисти линии и минималистички стален профил ја прават оваа современа маса сестран центар на просторот. Тенките нозе даваат илузија на лебдење.', tags:['Минималистичка','Тенки нозе','Отворен план'] }
+    },
+    'table8': {
+      en: { cat:'Table', title:'Black Glass Table', desc:'Drama and elegance fused — a tinted black glass top sits atop a sculptural matte steel base. The reflective surface creates depth and dimension, ideal for modern luxury interiors.', tags:['Black Glass','Matte Steel','Luxury'] },
+      mk: { cat:'Маса', title:'Маса со черно стакло', desc:'Драма и елеганција споени — затемнет стаклен плот на скулпторска матна стална основа. Рефлективната површина создава длабочина, идеална за луксузни ентериери.', tags:['Черно стакло','Матен челик','Луксузна'] }
+    },
+    'table9': {
+      en: { cat:'Table', title:'Stone Top Table', desc:'Natural stone meets refined steel. The unique veining of each stone slab means no two tables are identical. A true heirloom piece built to last generations — available in marble or granite.', tags:['Stone Top','Unique Veining','Heirloom'] },
+      mk: { cat:'Маса', title:'Маса со камен плот', desc:'Природен камен и рафиниран челик. Уникатните камени жили значат дека ниту две маси не се исти. Вистинска наследна парче за генерации — достапна во мермер или гранит.', tags:['Камен плот','Уникатна жила','Наследна'] }
+    },
+    'table10': {
+      en: { cat:'Table', title:'White Marble Table', desc:'Crisp white marble top on a powder-coated black steel frame — a timeless classic. The contrast of light stone and dark metal creates a striking visual balance perfect for any interior.', tags:['White Marble','Black Steel','Classic'] },
+      mk: { cat:'Маса', title:'Маса со бел мермер', desc:'Бел мермерен плот на прашкасто обоена стална рамка — безвременска класика. Контрастот на светол камен и темен метал создава упечатлива рамнотежа.', tags:['Бел мермер','Черен челик','Класична'] }
+    },
+    'table11': {
+      en: { cat:'Table', title:'Outdoor Glass Table', desc:'Built for the elements — weather-resistant galvanised steel frame with a tempered glass top. Equally stunning on a terrace, garden, or covered outdoor dining area.', tags:['Weather Resistant','Galvanised','Outdoor'] },
+      mk: { cat:'Маса', title:'Надворешна стаклена маса', desc:'Изградена за природата — отпорна галванизирана стална рамка со калено стакло. Восхитувачка на тераса или во градина.', tags:['Отпорна','Галванизирана','Надворешна'] }
+    },
+    'table12': {
+      en: { cat:'Table', title:'Hairpin Coffee Table', desc:'A modern classic — slender three-rod steel legs for an airy, light aesthetic. Available in multiple top materials and custom heights. The perfect living room centrepiece.', tags:['Hairpin Legs','Airy Design','Living Room'] },
+      mk: { cat:'Маса', title:'Маса за кафе со шнала нозе', desc:'Модерна класика — тенки трипрачкасти стални нозе за воздушна, лесна естетика. Достапна во повеќе материјали за плот и мерки по нарачка.', tags:['Шнала нозе','Воздушен дизајн','Дневна соба'] }
+    },
+    'table16': {
+      en: { cat:'Table', title:'Wide Coffee Table', desc:'A generously proportioned coffee table with a broad steel frame and open lower shelf. Perfect for families and entertaining — plenty of surface space and practical storage below.', tags:['Wide Format','Lower Shelf','Family Size'] },
+      mk: { cat:'Маса', title:'Широка маса за кафе', desc:'Великодушно пропорционирана маса со широка стална рамка и отворена долна полица. Совршена за семејства и за оние кои сакаат да примаат гости.', tags:['Широк формат','Долна полица','Семејна'] }
+    },
+    'table17': {
+      en: { cat:'Table', title:'Side Sofa Table', desc:'A slim and elegant side table designed to nestle alongside your sofa. The minimal steel frame keeps sight-lines open while providing a handy surface for drinks, books, and remotes.', tags:['Slim Profile','Sofa Side','Minimal'] },
+      mk: { cat:'Маса', title:'Странична маса за кауч', desc:'Тенка и елегантна странична маса дизајнирана да стои покрај вашиот кауч. Минималната стална рамка одржува отворен поглед и нуди практична површина.', tags:['Тенок профил','Покрај кауч','Минимална'] }
+    },
+    'table18': {
+      en: { cat:'Table', title:'All-Black Dining Table', desc:'Full matte-black drama from frame to surface. This commanding dining table absorbs light beautifully, creating a sophisticated, moody atmosphere for any modern dining room.', tags:['All Black','Matte Finish','Statement'] },
+      mk: { cat:'Маса', title:'Сиот-черна трпезариска маса', desc:'Целосна матна-черна драма — оваа маса апсорбира светлина убаво, создавајќи софистицирана атмосфера за секоја современа трпезарија.', tags:['Сиот черна','Матна','Изјавна'] }
+    },
+    'table19': {
+      en: { cat:'Table', title:'Round Nesting Tables', desc:'A versatile set of round nesting tables in graduated sizes. Stack them together as a sculptural display or spread apart for flexible hosting. Powder-coated steel with glass tops.', tags:['Nesting Set','Round','Flexible'] },
+      mk: { cat:'Маса', title:'Тркалезни вгнездени маси', desc:'Разностран сет тркалезни вгнездени маси во постепени големини. Ставете ги заедно или раздвојте за флексибилно угостување. Прашкасто обоен челик со стаклени плотови.', tags:['Сет за вгнездување','Тркалезни','Флексибилни'] }
+    },
+    'table20': {
+      en: { cat:'Table', title:'X-Leg Coffee Table', desc:'Bold X-shaped steel legs give this coffee table a dynamic, architectural character. The criss-cross base is both a structural and visual highlight — a conversation starter in any living room.', tags:['X-Legs','Architectural','Dynamic'] },
+      mk: { cat:'Маса', title:'Маса за кафе со Х нозе', desc:'Смели Х-облични стални нозе му даваат на овој сто динамичен, архитектонски карактер. Вкрстената основа е и структурна и визуелна главна точка.', tags:['Х-нозе','Архитектонска','Динамична'] }
+    },
+    'table21': {
+      en: { cat:'Table', title:'Round Table Set', desc:'A matching set of round tables in two sizes — a larger dining table paired with a smaller accent table. Unified by the same steel finish, they work independently or as a coordinated pair.', tags:['Matched Set','Two Sizes','Round'] },
+      mk: { cat:'Маса', title:'Сет тркалезни маси', desc:'Совпаднат сет тркалезни маси во две големини — поголема трпезариска маса спарена со помала акцентна маса. Обединети со иста стална завршница.', tags:['Совпаднат сет','Две големини','Тркалезни'] }
+    },
+    'shelf': {
+      en: { cat:'Shelf', title:'Corner Shelf Unit', desc:'A space-smart corner shelf unit in welded black steel. Five staggered shelves make the most of unused corner space — perfect for books, plants, and decorative objects. Freestanding and wall-anchored options.', tags:['Corner Unit','5 Shelves','Freestanding'] },
+      mk: { cat:'Полица', title:'Аголна единица полица', desc:'Паметна аголна единица полица во заварен черен челик. Пет поместени полици го максимизираат неискористениот аголен простор — совршени за книги, растенија и декорации.', tags:['Аголна единица','5 полици','Слободностоечка'] }
+    },
+    'shelf1': {
+      en: { cat:'Shelf', title:'Floating Wall Shelf', desc:'A clean and functional wall shelf with a minimalist floating appearance. The hidden bracket system means all you see is the steel surface and whatever you place on it. Available in custom lengths.', tags:['Wall Mounted','Floating','Minimalist'] },
+      mk: { cat:'Полица', title:'Лебдечка ѕидна полица', desc:'Чиста и функционална ѕидна полица со минималистички изглед на лебдење. Скриениот систем на носачи значи дека гледате само стална површина. Достапна во должини по нарачка.', tags:['Ѕидна','Лебдечка','Минималистичка'] }
+    },
+    'shelf2': {
+      en: { cat:'Shelf', title:'Wine Rack Shelf', desc:'Designed for wine enthusiasts — this elegant steel wine rack holds up to 20 bottles horizontally with additional space for glasses above. A functional sculpture for kitchen or dining room.', tags:['Wine Rack','20 Bottles','Functional Art'] },
+      mk: { cat:'Полица', title:'Решетка за вино', desc:'Дизајнирана за љубителите на вино — овој елегантен стален стеж за вино држи до 20 шишиња хоризонтално со дополнителен простор за чаши горе.', tags:['Стеж за вино','20 шишиња','Функционална уметност'] }
+    },
+    'shelf3': {
+      en: { cat:'Shelf', title:'Kitchen Storage Unit', desc:'An industrial-chic kitchen storage unit with open steel shelves and optional hanging bar. Combines practical storage with a raw aesthetic that elevates any kitchen design. Fully customisable layout.', tags:['Kitchen','Open Shelves','Industrial'] },
+      mk: { cat:'Полица', title:'Кујнска единица за складиштење', desc:'Индустриско-шик кујнска единица за складиштење со отворени стални полици и опционална шипка за закачување. Комбинира практично складиштење со сурова естетика.', tags:['Кујна','Отворени полици','Индустриска'] }
+    },
+    'shelf4': {
+      en: { cat:'Shelf', title:'Display Cabinet', desc:'A showcase cabinet with a steel framework and glass panelling. Ideal for displaying collectibles, art objects, or fine tableware. The open design keeps items visible while the frame adds structure and style.', tags:['Glass Panels','Display','Showcase'] },
+      mk: { cat:'Полица', title:'Шкаф за прикажување', desc:'Шкаф за прикажување со стална рамка и стаклени панели. Идеален за прикажување колекционерски предмети, уметнички објекти или фин прибор за јадење.', tags:['Стаклени панели','Прикажување','Витрина'] }
+    },
+    'shelf5': {
+      en: { cat:'Shelf', title:'Open Steel Shelf', desc:'Simple, strong, and stylish — this open steel shelf works in any room. The straightforward design puts the focus on what you display. Available in any width, depth, or number of levels.', tags:['Open Design','Versatile','Any Room'] },
+      mk: { cat:'Полица', title:'Отворена стална полица', desc:'Едноставна, силна и стилска — оваа отворена стална полица работи во секоја соба. Едноставниот дизајн го фокусира вниманието на тоа што прикажувате.', tags:['Отворен дизајн','Разностран','Секоја соба'] }
+    },
+    'cabinet1': {
+      en: { cat:'Shelf', title:'Sideboard Cabinet', desc:'A long, low sideboard cabinet in brushed steel with soft-close doors. Perfect for entryways, dining rooms, and living areas. Generous hidden storage with a clean display surface on top.', tags:['Sideboard','Hidden Storage','Brushed Steel'] },
+      mk: { cat:'Полица', title:'Странична витрина', desc:'Долга, ниска странична витрина од полиран челик со меко затворање врати. Совршена за ходници, трпезарии и дневни простории. Нуди големо скриено складиштење.', tags:['Странична витрина','Скриено складиштење','Полиран челик'] }
+    },
+    'ceilingShelf': {
+      en: { cat:'Shelf', title:'Ceiling-Suspended Shelf', desc:'A dramatic ceiling-suspended shelf system that frees up floor space entirely. Hanging steel rods support multiple levels of shelving — a bold architectural feature for high-ceiling homes and studios.', tags:['Suspended','Ceiling Mount','Architectural'] },
+      mk: { cat:'Полица', title:'Тавански виснат полица', desc:'Драматичен тавански систем на полици кој го ослободува целиот поден простор. Виснатите стални прачки поддржуваат повеќе нивоа на полици — смело архитектонско решение.', tags:['Виснат','Таванска монтажа','Архитектонска'] }
+    },
+    'bar1': {
+      en: { cat:'Shelf', title:'Bar Table & Stools', desc:'A complete bar station — a raised counter-height table with matching steel-framed stools. Creates an instant home bar or kitchen breakfast counter. Fully customisable heights and finishes.', tags:['Bar Height','Matching Stools','Home Bar'] },
+      mk: { cat:'Полица', title:'Бар маса и столчиња', desc:'Комплетна бар станица — издигната маса со висина на шанк со совпаднати стални столчиња. Создава домашен бар или кујнски брекфаст шанк. Мерки и завршници по нарачка.', tags:['Бар висина','Совпаднати столчиња','Домашен бар'] }
+    }
+  };
+
+  // ─── LANGUAGE ────────────────────────────────────────────────
+  let lang = 'en';
+
+  const translations = {
+    en: {
+      heroEyebrow: 'Handcrafted Metal Furniture',
+      heroTitle: 'Where Metal<br><em>Meets</em><br>Mastery',
+      heroDesc: 'Custom metalwork for the discerning home — doors, tables, shelves, and bespoke pieces built with precision and lasting character.',
+      heroCta1: 'View Portfolio', heroCta2: '📞 Call Us',
+      statsY: 'Years Experience', statsP: 'Projects Completed', statsC: 'Custom Work', statsCat: 'Product Categories',
+      sectionLabel: 'Portfolio', sectionTitle: 'Crafted<br>Collections',
+      tabAll: 'All', tabDoor: 'Doors', tabTable: 'Tables', tabShelf: 'Shelves',
+      craftLabel: 'Our Craft', craftTitle: 'Built to<br><em style="font-style:italic;color:var(--gold)">Last</em>',
+      craftDesc: 'Every piece from Ginovski Metallic Studio is made by hand, with careful attention to material quality, structural integrity, and timeless design. We work closely with each client to bring their vision to life.',
+      craftF1: 'Custom sizing and dimensions for every project',
+      craftF2: 'Premium grade steel, iron, and specialty metals',
+      craftF3: 'Powder coating, raw, or polished finishes available',
+      craftF4: 'Doors, dining tables, coffee tables, shelves, and more',
+      socialTxt: 'See our latest work on social media',
+      footerTag: 'Ginovski Metallic Studio<br>Handcrafted metal furniture<br>& custom fabrication.',
+      footerCol1: 'Collections', footerCol2: 'Connect',
+      footerBottom: '© 2025 Ginovski Metallic Studio. All rights reserved.',
+      footerMotto: 'Handcrafted with precision.',
+      lbCta: 'Order This Piece',
+    },
+    mk: {
+      heroEyebrow: 'Рачно изработен метален мебел',
+      heroTitle: 'Каде Металот<br><em>Се Среќава</em><br>со Мајсторство',
+      heroDesc: 'Нарачан метален мебел за вашиот дом — врати, маси, полици и уникатни парчиња изработени со прецизност и трајност.',
+      heroCta1: 'Погледни Портфолио', heroCta2: '📞 Јави се',
+      statsY: 'Години искуство', statsP: 'Завршени проекти', statsC: 'Нарачана работа', statsCat: 'Категории производи',
+      sectionLabel: 'Портфолио', sectionTitle: 'Изработени<br>Колекции',
+      tabAll: 'Сите', tabDoor: 'Врати', tabTable: 'Маси', tabShelf: 'Полици',
+      craftLabel: 'Нашиот занает', craftTitle: 'Изградено да<br><em style="font-style:italic;color:var(--gold)">Трае</em>',
+      craftDesc: 'Секое парче од Ginovski Metallic Studio е рачно изработено, со внимателно внимание на квалитетот на материјалот, структурниот интегритет и безвременскиот дизајн.',
+      craftF1: 'Мерки по нарачка за секој проект',
+      craftF2: 'Премиум челик, железо и специјални метали',
+      craftF3: 'Прашкаста боја, суров или полиран финиш',
+      craftF4: 'Врати, трпезариски маси, маси за кафе, полици и уште',
+      socialTxt: 'Видете ги нашите најнови работи на социјалните мрежи',
+      footerTag: 'Ginovski Metallic Studio<br>Рачно изработен метален мебел<br>и нарачана изработка.',
+      footerCol1: 'Колекции', footerCol2: 'Поврзи се',
+      footerBottom: '© 2025 Ginovski Metallic Studio. Сите права задржани.',
+      footerMotto: 'Рачно изработено со прецизност.',
+      lbCta: 'Нарачај го ова',
+    }
+  };
+
+  function toggleLang() {
+    lang = lang === 'en' ? 'mk' : 'en';
+    document.getElementById('langLabel').textContent = lang === 'en' ? 'MK' : 'EN';
+    document.getElementById('langFlag').textContent = lang === 'en' ? '🇲🇰' : '🇬🇧';
+    applyLang();
+  }
+
+  function applyLang() {
+    const t = translations[lang];
+    setHTML('.hero-eyebrow', t.heroEyebrow);
+    setHTML('.hero-title', t.heroTitle);
+    setHTML('.hero-desc', t.heroDesc);
+    const c1 = document.getElementById('heroCta1'); if(c1) c1.textContent = t.heroCta1;
+    const c2 = document.getElementById('heroCta2'); if(c2) c2.textContent = t.heroCta2;
+    const statLabels = document.querySelectorAll('.stat-label');
+    ['statsY','statsP','statsC','statsCat'].forEach((k,i) => { if(statLabels[i]) statLabels[i].textContent = t[k]; });
+    const sl = document.querySelector('.categories .section-label'); if(sl) sl.textContent = t.sectionLabel;
+    const st = document.querySelector('.categories .section-title'); if(st) st.innerHTML = t.sectionTitle;
+    const tabs = document.querySelectorAll('.tab');
+    ['tabAll','tabDoor','tabTable','tabShelf'].forEach((k,i) => { if(tabs[i]) tabs[i].textContent = t[k]; });
+    const craftLabel = document.querySelector('#about .section-label'); if(craftLabel) craftLabel.textContent = t.craftLabel;
+    const craftTitle = document.querySelector('#about .section-title'); if(craftTitle) craftTitle.innerHTML = t.craftTitle;
+    const craftDesc = document.querySelector('.feature-content > p'); if(craftDesc) craftDesc.textContent = t.craftDesc;
+    const craftItems = document.querySelectorAll('.feature-list li');
+    ['craftF1','craftF2','craftF3','craftF4'].forEach((k,i) => { if(craftItems[i]) craftItems[i].textContent = t[k]; });
+    const sp = document.querySelector('.social-strip p'); if(sp) sp.textContent = t.socialTxt;
+    const ftag = document.querySelector('.footer-tagline'); if(ftag) ftag.innerHTML = t.footerTag;
+    const fcols = document.querySelectorAll('.footer-col h4');
+    if(fcols[0]) fcols[0].textContent = t.footerCol1;
+    if(fcols[1]) fcols[1].textContent = t.footerCol2;
+    const fbs = document.querySelectorAll('.footer-bottom span');
+    if(fbs[0]) fbs[0].textContent = t.footerBottom;
+    if(fbs[1]) fbs[1].textContent = t.footerMotto;
+    document.querySelectorAll('.gallery-card').forEach(card => {
+      const key = card.dataset.item;
+      if(!key || !items[key]) return;
+      const d = items[key][lang];
+      const cat = card.querySelector('.gallery-card-cat');
+      const title = card.querySelector('.gallery-card-title');
+      const action = card.querySelector('.gallery-card-action');
+      if(cat) cat.textContent = d.cat;
+      if(title) title.textContent = d.title;
+      if(action) action.innerHTML = (lang==='en'?'View Project':'Погледни') + ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+    });
+  }
+
+  function setHTML(sel, html) { const el = document.querySelector(sel); if(el) el.innerHTML = html; }
+
+  // ─── LIGHTBOX ────────────────────────────────────────────────
+  function openLightbox(src, itemKey) {
+    const d = (items[itemKey] || {})[lang] || { cat:'', title: itemKey, desc:'Custom metalwork piece from Ginovski Metallic Studio. Contact us for details and pricing.', tags:[] };
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightboxCat').textContent = d.cat;
+    document.getElementById('lightboxTitle').textContent = d.title;
+    document.getElementById('lightboxDesc').textContent = d.desc;
+    const tagsEl = document.getElementById('lightboxTags');
+    tagsEl.innerHTML = d.tags.map(tag => `<span class="lightbox-tag">${tag}</span>`).join('');
+    document.getElementById('lightboxCtaText').textContent = translations[lang].lbCta;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function handleLightboxClick(e) {
+    if(e.target === document.getElementById('lightbox')) closeLightbox();
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  // ─── INTRO ANIMATION ─────────────────────────────────────────
   (function() {
     const fullName = "Ginovski Metallic Studio";
-    const shortName = "GSM";
     const container = document.getElementById('introText');
     const intro = document.getElementById('intro');
     document.body.style.overflow = 'hidden';
-
-    // Phase 1: Type out full name letter by letter
     const spans = [];
     fullName.split('').forEach((char, i) => {
       const s = document.createElement('span');
       s.className = 'intro-char';
       s.textContent = char === ' ' ? '\u00A0' : char;
       s.style.animationDelay = (i * 45) + 'ms';
-      // mark G, S, M positions
       if (i === 0) s.dataset.keep = 'G';
       if (i === 9) s.dataset.keep = 'S';
       if (i === 18) s.dataset.keep = 'M';
       container.appendChild(s);
       spans.push(s);
     });
-
-    const typeDuration = fullName.length * 45 + 500; // wait after all chars appear
-
+    const typeDuration = fullName.length * 45 + 500;
     setTimeout(() => {
-      // Phase 2: add golden glow to G, S, M
       spans.forEach((s, i) => {
         if (i === 0 || i === 9 || i === 18) {
           s.style.transition = 'color 0.4s, text-shadow 0.4s';
@@ -1215,9 +1578,7 @@
         }
       });
     }, typeDuration);
-
     setTimeout(() => {
-      // Phase 3: fade out non-G/S/M chars and collapse
       spans.forEach((s, i) => {
         if (i !== 0 && i !== 9 && i !== 18) {
           s.style.transition = 'opacity 0.5s ' + (Math.random() * 0.2) + 's, transform 0.5s';
@@ -1226,47 +1587,30 @@
         }
       });
     }, typeDuration + 600);
-
     setTimeout(() => {
-      // Phase 4: slide remaining G, S, M together to spell GSM
       container.style.transition = 'all 0.6s cubic-bezier(0.76,0,0.24,1)';
       container.style.letterSpacing = '0.5em';
       container.style.fontSize = 'clamp(40px, 10vw, 100px)';
-      // Remove invisible chars from layout
       spans.forEach((s, i) => {
         if (i !== 0 && i !== 9 && i !== 18) {
           s.style.transition = 'all 0.5s';
-          s.style.width = '0';
-          s.style.overflow = 'hidden';
-          s.style.display = 'inline-block';
-          s.style.maxWidth = '0';
-          s.style.padding = '0';
-          s.style.margin = '0';
+          s.style.width = '0'; s.style.overflow = 'hidden';
+          s.style.display = 'inline-block'; s.style.maxWidth = '0';
+          s.style.padding = '0'; s.style.margin = '0';
         }
       });
     }, typeDuration + 1200);
-
-    setTimeout(() => {
-      // Phase 5: flash and fade out
-      intro.style.transition = 'opacity 0.7s';
-      intro.style.opacity = '0';
-    }, typeDuration + 2200);
-
-    setTimeout(() => {
-      intro.classList.add('done');
-      document.body.style.overflow = '';
-    }, typeDuration + 2900);
+    setTimeout(() => { intro.style.transition = 'opacity 0.7s'; intro.style.opacity = '0'; }, typeDuration + 2200);
+    setTimeout(() => { intro.classList.add('done'); document.body.style.overflow = ''; }, typeDuration + 2900);
   })();
 
-  // HAMBURGER
+  // ─── HAMBURGER ───────────────────────────────────────────────
   function toggleMenu() {
-    const nav = document.getElementById('mobileNav');
-    const ham = document.getElementById('ham');
-    nav.classList.toggle('open');
-    ham.classList.toggle('open');
+    document.getElementById('mobileNav').classList.toggle('open');
+    document.getElementById('ham').classList.toggle('open');
   }
 
-  // FILTER GALLERY
+  // ─── FILTER ──────────────────────────────────────────────────
   function filterGallery(cat, btn) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     btn.classList.add('active');
@@ -1282,19 +1626,7 @@
     document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
   }
 
-  // LIGHTBOX
-  function openLightbox(src) {
-    document.getElementById('lightboxImg').src = src;
-    document.getElementById('lightbox').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
-
-  // SCROLL REVEAL
+  // ─── SCROLL REVEAL ───────────────────────────────────────────
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
@@ -1305,14 +1637,12 @@
   }, { threshold: 0.1 });
   document.querySelectorAll('.gallery-card').forEach(card => observer.observe(card));
 
-  // NAV SCROLL EFFECT
+  // ─── NAV SCROLL ──────────────────────────────────────────────
   window.addEventListener('scroll', () => {
-    const nav = document.querySelector('nav');
-    nav.style.background = window.scrollY > 50 
-      ? 'rgba(8,8,8,0.95)' 
+    document.querySelector('nav').style.background = window.scrollY > 50
+      ? 'rgba(8,8,8,0.95)'
       : 'linear-gradient(to bottom, rgba(8,8,8,0.95), transparent)';
   });
 </script>
 </body>
 </html>
-
